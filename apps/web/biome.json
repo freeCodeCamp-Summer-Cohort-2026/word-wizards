@@ -1,0 +1,24 @@
+{
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  "extends": "//",
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+  },
+  "linter": {
+    "domains": {
+      "next": "recommended",
+      "react": "recommended",
+      "tailwind": "recommended"
+    },
+    "enabled": true,
+    "rules": {
+      "preset": "recommended"
+    }
+  },
+  "root": false
+}
