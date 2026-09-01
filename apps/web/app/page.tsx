@@ -1,5 +1,6 @@
 import { testExport } from "@repo/types/index";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   console.log(testExport);
@@ -15,6 +16,9 @@ export default function Home() {
           src="/next.svg"
           width={100}
         />
+        <div className="flex min-h-svh items-center justify-center">
+          <Button>Click me</Button>
+        </div>
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <h1 className="max-w-xs text-3xl leading-10 font-semibold tracking-tight text-black dark:text-zinc-50">
             To get started, edit the{" "}
@@ -43,7 +47,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
-            className="bg-foreground text-background flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] md:w-[158px] dark:hover:bg-[#ccc]"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] md:w-[158px] dark:hover:bg-[#ccc]"
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             rel="noopener noreferrer"
             target="_blank"
