@@ -1,0 +1,5 @@
+.*
+supabase*
+devbox*
+docker*
+node_modules

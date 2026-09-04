@@ -1,0 +1,22 @@
+pre-commit:
+  parallel: true
+  commands:
+    check-types:
+      glob: "*.{ts,tsx}"
+      run: npm run check-types
+      stage_fixed: true
+    lint:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc,css}"
+      run: npx biome check --fix -- {staged_files}
+      stage_fixed: true
+
+pre-push:
+  parallel: true
+  commands:
+    check-types:
+      glob: "*.{ts,tsx}"
+      run: npm run check-types
+      stage_fixed: true
+    lint:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc,css}"
+      run: npx biome check --fix -- {push_files}

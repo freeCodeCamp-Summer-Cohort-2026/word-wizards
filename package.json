@@ -1,0 +1,46 @@
+{
+  "name": "word-wizards",
+  "version": "0.0.0",
+  "description": "Repository for **Team Word Wizards** - Summer 2026 Cohort",
+  "homepage": "https://github.com/freeCodeCamp-Summer-Cohort-2026/word-wizards#readme",
+  "bugs": {
+    "url": "https://github.com/freeCodeCamp-Summer-Cohort-2026/word-wizards/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freeCodeCamp-Summer-Cohort-2026/word-wizards.git"
+  },
+  "license": "AGPL-3.0",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev": "turbo dev",
+    "format": "turbo format",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.11",
+    "lefthook": "^2.1.12",
+    "supabase": "^2.116.0",
+    "turbo": "^2.10.12"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "^11.0.0"
+    },
+    "runtime": {
+      "name": "node",
+      "version": "^26.0.0"
+    }
+  }
+}
