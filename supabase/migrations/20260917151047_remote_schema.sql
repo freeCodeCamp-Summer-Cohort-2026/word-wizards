@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS "public"."themes" (
     "is_deleted" boolean DEFAULT false NOT NULL,
     "catalogue_id" bigint NOT NULL,
     "status" "public"."content_status" DEFAULT 'draft'::"public"."content_status" NOT NULL,
-    "visual" text not null default ''::text,
+    "visual" "text" DEFAULT ''::"text" NOT NULL,
     CONSTRAINT "slug_format" CHECK (("slug" ~ '^[a-z0-9]+(-[a-z0-9]+)*$'::"text"))
 );
 
@@ -344,7 +344,7 @@ ALTER TABLE ONLY "public"."catalogues"
 
 
 ALTER TABLE ONLY "public"."exercises"
-    ADD CONSTRAINT "exercises_display_order_key" UNIQUE ("display_order");
+    ADD CONSTRAINT "exercises_display_order_lessons_id_key" UNIQUE ("display_order", "lesson_id");
 
 
 
@@ -354,7 +354,7 @@ ALTER TABLE ONLY "public"."exercises"
 
 
 ALTER TABLE ONLY "public"."lessons"
-    ADD CONSTRAINT "lessons_display_order_key" UNIQUE ("display_order");
+    ADD CONSTRAINT "lessons_display_order_theme_id_key" UNIQUE ("display_order", "theme_id");
 
 
 
