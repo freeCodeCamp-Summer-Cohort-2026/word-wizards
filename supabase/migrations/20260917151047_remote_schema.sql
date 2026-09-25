@@ -510,7 +510,6 @@ ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
 
 
 GRANT USAGE ON SCHEMA "public" TO "postgres";
-GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
 
@@ -681,87 +680,7 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."catalogues" TO "anon";
-GRANT ALL ON TABLE "public"."catalogues" TO "authenticated";
-GRANT ALL ON TABLE "public"."catalogues" TO "service_role";
 
-
-
-GRANT ALL ON SEQUENCE "public"."catalogue_display_order_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."catalogue_display_order_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."catalogue_display_order_seq" TO "service_role";
-
-
-
-GRANT ALL ON SEQUENCE "public"."catalogue_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."catalogue_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."catalogue_id_seq" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."exercises" TO "anon";
-GRANT ALL ON TABLE "public"."exercises" TO "authenticated";
-GRANT ALL ON TABLE "public"."exercises" TO "service_role";
-
-
-
-GRANT ALL ON SEQUENCE "public"."exercises_display_order_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."exercises_display_order_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."exercises_display_order_seq" TO "service_role";
-
-
-
-GRANT ALL ON SEQUENCE "public"."exercises_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."exercises_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."exercises_id_seq" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."lessons" TO "anon";
-GRANT ALL ON TABLE "public"."lessons" TO "authenticated";
-GRANT ALL ON TABLE "public"."lessons" TO "service_role";
-
-
-
-GRANT ALL ON SEQUENCE "public"."lessons_display_order_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."lessons_display_order_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."lessons_display_order_seq" TO "service_role";
-
-
-
-GRANT ALL ON SEQUENCE "public"."lessons_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."lessons_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."lessons_id_seq" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."themes" TO "anon";
-GRANT ALL ON TABLE "public"."themes" TO "authenticated";
-GRANT ALL ON TABLE "public"."themes" TO "service_role";
-
-
-
-GRANT ALL ON SEQUENCE "public"."themes_display_order_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."themes_display_order_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."themes_display_order_seq" TO "service_role";
-
-
-
-GRANT ALL ON SEQUENCE "public"."themes_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."themes_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."themes_id_seq" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."user_profiles" TO "anon";
-GRANT ALL ON TABLE "public"."user_profiles" TO "authenticated";
-GRANT ALL ON TABLE "public"."user_profiles" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."user_roles" TO "anon";
-GRANT ALL ON TABLE "public"."user_roles" TO "authenticated";
-GRANT ALL ON TABLE "public"."user_roles" TO "service_role";
 
 
 
@@ -772,9 +691,8 @@ GRANT ALL ON TABLE "public"."user_roles" TO "service_role";
 
 
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "postgres";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "anon";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "authenticated";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "service_role";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT UPDATE ON SEQUENCES TO "authenticated";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT UPDATE ON SEQUENCES TO "service_role";
 
 
 
@@ -782,9 +700,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQ
 
 
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "postgres";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "anon";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "authenticated";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "service_role";
 
 
 
@@ -792,9 +707,9 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUN
 
 
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "postgres";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "anon";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "authenticated";
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "service_role";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT REFERENCES,TRIGGER,TRUNCATE,MAINTAIN ON TABLES TO "anon";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT REFERENCES,TRIGGER,TRUNCATE,MAINTAIN ON TABLES TO "authenticated";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT REFERENCES,TRIGGER,TRUNCATE,MAINTAIN ON TABLES TO "service_role";
 
 
 
