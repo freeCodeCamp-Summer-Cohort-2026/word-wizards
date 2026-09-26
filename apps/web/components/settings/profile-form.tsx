@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { updateProfile } from "@/lib/settings/actions";
 import type { LearnerSettings } from "@/lib/settings/types";
 
-const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/webp", "image/avif"];
 const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
 
 function getInitials(name: string) {
@@ -39,7 +39,7 @@ export function ProfileForm({ settings }: { settings: LearnerSettings }) {
       return;
     }
     if (!ACCEPTED_TYPES.includes(file.type)) {
-      setError("Choose a PNG, JPG, or WebP image.");
+      setError("Choose a PNG, JPG, WebP, or AVIF image.");
       return;
     }
     if (file.size > MAX_AVATAR_BYTES) {
@@ -91,9 +91,9 @@ export function ProfileForm({ settings }: { settings: LearnerSettings }) {
               </Button>
             ) : null}
           </div>
-          <p className="text-xs text-muted-foreground">PNG, JPG, or WebP up to 2 MB.</p>
+          <p className="text-xs text-muted-foreground">PNG, JPG, WebP, or AVIF up to 2 MB.</p>
           <input
-            accept="image/png,image/jpeg,image/webp"
+            accept="image/png,image/jpeg,image/webp,image/avif"
             className="sr-only"
             onChange={handlePhoto}
             ref={fileInputRef}
