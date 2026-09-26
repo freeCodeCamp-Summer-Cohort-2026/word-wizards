@@ -1,7 +1,7 @@
 "use client";
 
 import { CameraIcon } from "@phosphor-icons/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -30,8 +30,25 @@ export function ProfileForm({ settings }: { settings: LearnerSettings }) {
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const objectUrlRef = useRef<string | null>(null);
 
   const isDirty = displayName.trim() !== settings.displayName;
+
+  const revokeObjectUrl = () => {
+    if (objectUrlRef.current) {
+      URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
+    }
+  };
+
+  useEffect(
+    () => () => {
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+      }
+    },
+    [],
+  );
 
   const handlePhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -48,7 +65,15 @@ export function ProfileForm({ settings }: { settings: LearnerSettings }) {
     }
 
     setError(null);
-    setAvatarUrl(URL.createObjectURL(file));
+    revokeObjectUrl();
+    const nextUrl = URL.createObjectURL(file);
+    objectUrlRef.current = nextUrl;
+    setAvatarUrl(nextUrl);
+  };
+
+  const handleRemovePhoto = () => {
+    revokeObjectUrl();
+    setAvatarUrl(null);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -86,7 +111,7 @@ export function ProfileForm({ settings }: { settings: LearnerSettings }) {
               Change photo
             </Button>
             {avatarUrl ? (
-              <Button onClick={() => setAvatarUrl(null)} size="sm" type="button" variant="ghost">
+              <Button onClick={handleRemovePhoto} size="sm" type="button" variant="ghost">
                 Remove
               </Button>
             ) : null}
