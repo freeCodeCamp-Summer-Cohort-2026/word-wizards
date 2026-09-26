@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import { createClient } from "@/lib/supabase/server";
 
 import type { LearnerSettings } from "./types";
@@ -13,11 +15,13 @@ export async function getLearnerSettings(): Promise<LearnerSettings> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const email = user?.email ?? "";
+  if (!user?.email) {
+    redirect("/auth/login?next=/protected/learner/settings");
+  }
 
   return {
     avatarUrl: null,
-    displayName: displayNameFromEmail(email),
-    email,
+    displayName: displayNameFromEmail(user.email),
+    email: user.email,
   };
 }
