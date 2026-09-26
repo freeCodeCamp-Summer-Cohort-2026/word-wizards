@@ -164,29 +164,35 @@ function DangerZoneCard() {
     setError(null);
     setIsDeactivating(true);
 
-    const result = await softDeleteAccount();
-    if (!result.ok) {
-      setIsDeactivating(false);
-      if (result.deferred) {
-        toast.info(result.error);
+    try {
+      const result = await softDeleteAccount();
+      if (!result.ok) {
+        if (result.deferred) {
+          toast.info(result.error);
+          return;
+        }
+        setError(result.error);
+        toast.error(result.error);
         return;
       }
-      setError(result.error);
-      toast.error(result.error);
-      return;
-    }
 
-    const supabase = createClient();
-    const { error: signOutError } = await supabase.auth.signOut();
-    if (signOutError) {
+      const supabase = createClient();
+      const { error: signOutError } = await supabase.auth.signOut();
+      if (signOutError) {
+        setError("Your account was deactivated, but signing out failed. Please sign out manually.");
+        toast.error("We couldn't sign you out. Please sign out manually.");
+        return;
+      }
+
+      toast.success("Your account has been deactivated.");
+      router.push("/auth/login");
+    } catch {
+      const message = "We couldn't deactivate your account. Please try again.";
+      setError(message);
+      toast.error(message);
+    } finally {
       setIsDeactivating(false);
-      setError("Your account was deactivated, but signing out failed. Please sign out manually.");
-      toast.error(signOutError.message);
-      return;
     }
-
-    toast.success("Your account has been deactivated.");
-    router.push("/auth/login");
   };
 
   const cancel = () => {
