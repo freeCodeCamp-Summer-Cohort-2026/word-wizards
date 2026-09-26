@@ -12,6 +12,28 @@ import { Label } from "@/components/ui/label";
 import { softDeleteAccount } from "@/lib/settings/actions";
 import { createClient } from "@/lib/supabase/client";
 
+const MIN_PASSWORD_LENGTH = 6;
+
+function changePasswordErrorMessage(error: unknown): string {
+  const code = (error as { code?: string } | null)?.code;
+
+  switch (code) {
+    case "same_password":
+      return "Choose a password you haven't used before.";
+    case "weak_password":
+      return "That password doesn't meet our security requirements. Try a longer one.";
+    case "session_not_found":
+    case "session_expired":
+      return "Your session has expired. Please sign in again.";
+    case "over_request_rate_limit":
+      return "Too many attempts. Please wait a moment and try again.";
+    case "reauthentication_needed":
+      return "Please sign in again before changing your password.";
+    default:
+      return "We couldn't update your password. Please try again.";
+  }
+}
+
 function ChangePasswordCard() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,31 +42,42 @@ function ChangePasswordCard() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (isSaving) {
+      return;
+    }
     setError(null);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      setError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
       return;
     }
 
     setIsSaving(true);
-    const supabase = createClient();
-    const { error: updateError } = await supabase.auth.updateUser({ password });
-    setIsSaving(false);
+    try {
+      const supabase = createClient();
+      const { error: updateError } = await supabase.auth.updateUser({ password });
 
-    if (updateError) {
-      setError(updateError.message);
-      toast.error(updateError.message);
-      return;
+      if (updateError) {
+        const message = changePasswordErrorMessage(updateError);
+        setError(message);
+        toast.error(message);
+        return;
+      }
+
+      setPassword("");
+      setConfirmPassword("");
+      toast.success("Password updated.");
+    } catch {
+      const message = "We couldn't update your password. Please try again.";
+      setError(message);
+      toast.error(message);
+    } finally {
+      setIsSaving(false);
     }
-
-    setPassword("");
-    setConfirmPassword("");
-    toast.success("Password updated.");
   };
 
   return (
@@ -58,9 +91,15 @@ function ChangePasswordCard() {
           <div className="grid gap-2">
             <Label htmlFor="new-password">New password</Label>
             <Input
+              aria-describedby={error ? "password-error" : undefined}
+              aria-invalid={Boolean(error)}
               autoComplete="new-password"
+              disabled={isSaving}
               id="new-password"
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setError(null);
+              }}
               required
               type="password"
               value={password}
@@ -70,16 +109,26 @@ function ChangePasswordCard() {
           <div className="grid gap-2">
             <Label htmlFor="confirm-password">Confirm new password</Label>
             <Input
+              aria-describedby={error ? "password-error" : undefined}
+              aria-invalid={Boolean(error)}
               autoComplete="new-password"
+              disabled={isSaving}
               id="confirm-password"
-              onChange={(event) => setConfirmPassword(event.target.value)}
+              onChange={(event) => {
+                setConfirmPassword(event.target.value);
+                setError(null);
+              }}
               required
               type="password"
               value={confirmPassword}
             />
           </div>
 
-          {error ? <p className="text-sm text-destructive">{error}</p> : null}
+          {error ? (
+            <p className="text-sm text-destructive" id="password-error" role="alert">
+              {error}
+            </p>
+          ) : null}
 
           <Button disabled={isSaving} type="submit">
             {isSaving ? "Updating..." : "Update password"}
