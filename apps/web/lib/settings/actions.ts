@@ -1,11 +1,9 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 import type { SettingsActionResult } from "@/lib/settings/types";
 import { createClient } from "@/lib/supabase/server";
 
-const SETTINGS_PATH = "/protected/learner/settings";
+const DEFERRED_ERROR = "Profile persistence is not yet available.";
 
 export async function updateProfile(input: { displayName: string }): Promise<SettingsActionResult> {
   const supabase = await createClient();
@@ -26,8 +24,7 @@ export async function updateProfile(input: { displayName: string }): Promise<Set
     return { error: "Display name must be 60 characters or fewer.", ok: false };
   }
 
-  revalidatePath(SETTINGS_PATH);
-  return { ok: true };
+  return { deferred: true, error: DEFERRED_ERROR, ok: false };
 }
 
 export async function softDeleteAccount(): Promise<SettingsActionResult> {
@@ -40,5 +37,5 @@ export async function softDeleteAccount(): Promise<SettingsActionResult> {
     return { error: "You are not signed in.", ok: false };
   }
 
-  return { ok: true };
+  return { deferred: true, error: DEFERRED_ERROR, ok: false };
 }

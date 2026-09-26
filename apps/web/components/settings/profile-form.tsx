@@ -85,6 +85,10 @@ export function ProfileForm({ settings }: { settings: LearnerSettings }) {
     setIsSaving(false);
 
     if (!result.ok) {
+      if (result.deferred) {
+        toast.info(result.error);
+        return;
+      }
       setError(result.error);
       toast.error(result.error);
       return;
@@ -151,9 +155,14 @@ export function ProfileForm({ settings }: { settings: LearnerSettings }) {
 
       {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
-      <Button disabled={isSaving || !isDirty} type="submit">
-        {isSaving ? "Saving..." : "Save profile"}
-      </Button>
+      <div className="space-y-2">
+        <Button disabled={isSaving || !isDirty} type="submit">
+          {isSaving ? "Saving..." : "Save profile"}
+        </Button>
+        <p className="text-xs text-muted-foreground">
+          Display name changes aren&apos;t stored yet — saving arrives with the profile database.
+        </p>
+      </div>
     </form>
   );
 }

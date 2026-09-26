@@ -118,6 +118,10 @@ function DangerZoneCard() {
     const result = await softDeleteAccount();
     if (!result.ok) {
       setIsDeactivating(false);
+      if (result.deferred) {
+        toast.info(result.error);
+        return;
+      }
       setError(result.error);
       toast.error(result.error);
       return;
@@ -149,6 +153,9 @@ function DangerZoneCard() {
         <CardDescription>Deactivates your account and signs you out. Your learning progress is kept.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        <p className="text-xs text-muted-foreground">
+          Not enabled yet — account deactivation arrives with the profile database.
+        </p>
         {isConfirming ? (
           <>
             <div className="grid gap-2">

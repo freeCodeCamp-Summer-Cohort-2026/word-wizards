@@ -4,4 +4,4 @@ export type LearnerSettings = {
   email: string;
 };
 
-export type SettingsActionResult = { ok: true } | { ok: false; error: string };
+export type SettingsActionResult = { ok: true } | { ok: false; error: string; deferred?: boolean };
