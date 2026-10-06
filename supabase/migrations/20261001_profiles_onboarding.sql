@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     experience_level TEXT CHECK (experience_level IN ('beginner', 'some_experience', 'comfortable')),
     placement_check_status TEXT CHECK (placement_check_status IN ('skipped', 'completed', 'pending')),
     placement_score INTEGER DEFAULT NULL,
-    first_theme TEXT DEFAULT 'everyday-animals',
+    first_theme TEXT DEFAULT 'animals',
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
@@ -44,7 +44,7 @@ BEGIN
         ALTER TABLE public.profiles ADD COLUMN placement_score INTEGER DEFAULT NULL;
     END IF;
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'profiles' AND column_name = 'first_theme') THEN
-        ALTER TABLE public.profiles ADD COLUMN first_theme TEXT DEFAULT 'everyday-animals';
+        ALTER TABLE public.profiles ADD COLUMN first_theme TEXT DEFAULT 'animals';
     END IF;
 END $$;
 

@@ -13,6 +13,9 @@ import { Step5Theme } from "./steps/step-5-theme";
 import { Step6Summary } from "./steps/step-6-summary";
 import { Step7FirstLesson } from "./steps/step-7-first-lesson";
 
+// Explicit placeholder score for mock placement until the assessment engine is implemented
+const MOCK_PLACEMENT_SCORE = 85;
+
 interface OnboardingWizardProps {
   initialProfile?: ProfileOnboardingData | null;
 }
@@ -68,54 +71,83 @@ export function OnboardingWizard({ initialProfile }: OnboardingWizardProps) {
   };
 
   // Step 1 -> Step 2
+  // Step 1 -> Step 2
   const handleBegin = async () => {
+    setErrorMsg(null);
+    const result = await saveStepAction({ step: 2 });
+    if (!result.success) {
+      setErrorMsg(result.error ?? "Failed to save progress. Please try again.");
+      return;
+    }
     navigateForward(2);
-    void saveStepAction({ step: 2 });
   };
 
   // Step 2 Continue -> Step 3
   const handleGoalContinue = async () => {
     if (!goal) return;
+    setErrorMsg(null);
+    const result = await saveStepAction({ goal, step: 3 });
+    if (!result.success) {
+      setErrorMsg(result.error ?? "Failed to save progress. Please try again.");
+      return;
+    }
     navigateForward(3);
-    void saveStepAction({ goal, step: 3 });
   };
 
   // Step 3: AUTO-ADVANCE & CONDITIONAL BRANCHING
-  // If Beginner -> jump straight to Step 5 (bypassing Step 4)
-  // If Experienced/Comfortable -> advance to Step 4
   const handleExperienceSelect = async (level: ExperienceLevel, targetStep: number) => {
     setExperienceLevel(level);
+    setErrorMsg(null);
+    const result = await saveStepAction({ experienceLevel: level, step: targetStep });
+    if (!result.success) {
+      setErrorMsg(result.error ?? "Failed to save progress. Please try again.");
+      return;
+    }
     navigateForward(targetStep);
-    void saveStepAction({ experienceLevel: level, step: targetStep });
   };
 
   // Step 4: Take Placement Check
   const handleTakePlacementCheck = async () => {
     setPlacementChoice("take_check");
-    navigateForward(5);
-    void saveStepAction({
+    setErrorMsg(null);
+    const result = await saveStepAction({
       placementCheckStatus: "completed",
-      placementScore: 85, // Simulates successful completion of placement assessment
+      placementScore: MOCK_PLACEMENT_SCORE,
       step: 5,
     });
+    if (!result.success) {
+      setErrorMsg(result.error ?? "Failed to save progress. Please try again.");
+      return;
+    }
+    navigateForward(5);
   };
 
   // Step 4: Skip Placement Check
   const handleSkipPlacementCheck = async () => {
     setPlacementChoice("skip_check");
-    navigateForward(5);
-    void saveStepAction({
+    setErrorMsg(null);
+    const result = await saveStepAction({
       placementCheckStatus: "skipped",
       placementScore: null,
       step: 5,
     });
+    if (!result.success) {
+      setErrorMsg(result.error ?? "Failed to save progress. Please try again.");
+      return;
+    }
+    navigateForward(5);
   };
 
   // Step 5 Continue -> Step 6
   const handleThemeContinue = async () => {
     if (!theme) return;
+    setErrorMsg(null);
+    const result = await saveStepAction({ firstTheme: theme, step: 6 });
+    if (!result.success) {
+      setErrorMsg(result.error ?? "Failed to save progress. Please try again.");
+      return;
+    }
     navigateForward(6);
-    void saveStepAction({ firstTheme: theme, step: 6 });
   };
 
   // Step 6: Edit any previous selection
@@ -138,7 +170,7 @@ export function OnboardingWizard({ initialProfile }: OnboardingWizardProps) {
       firstTheme: theme,
       goal,
       placementCheckStatus: placementChoice === "take_check" ? "completed" : "skipped",
-      placementScore: placementChoice === "take_check" ? 85 : null,
+      placementScore: placementChoice === "take_check" ? MOCK_PLACEMENT_SCORE : null,
     });
 
     if (!result.success) {

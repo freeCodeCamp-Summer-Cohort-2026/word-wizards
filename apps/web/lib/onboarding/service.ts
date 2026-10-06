@@ -13,6 +13,7 @@ export async function getOnboardingProfile(): Promise<ProfileOnboardingData | nu
 
   if (error) {
     console.error("Error fetching onboarding profile:", error);
+    throw new Error("Failed to fetch onboarding profile");
   }
 
   if (!profile) {
@@ -147,16 +148,6 @@ export async function completeOnboarding(payload: CompleteOnboardingPayload) {
   if (payload.firstTheme !== undefined) updates.first_theme = payload.firstTheme;
 
   // Ensure user has at least 5 keys
-  const { data: currentProfile } = await supabase
-    .from("profiles")
-    .select("keys_balance")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!currentProfile || currentProfile.keys_balance == null || currentProfile.keys_balance < 5) {
-    updates.keys_balance = 5;
-  }
-
   const { error } = await supabase.from("profiles").update(updates).eq("id", user.id);
 
   if (error) {
@@ -164,5 +155,5 @@ export async function completeOnboarding(payload: CompleteOnboardingPayload) {
     throw new Error("Failed to complete onboarding");
   }
 
-  return { keysGranted: 5, success: true };
+  return { success: true };
 }

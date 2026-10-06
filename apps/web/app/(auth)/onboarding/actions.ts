@@ -24,15 +24,13 @@ export async function saveStepAction(payload: SaveStepPayload): Promise<ActionRe
   }
 }
 
-export async function completeOnboardingAction(
-  payload: CompleteOnboardingPayload,
-): Promise<ActionResult<{ keysGranted: number }>> {
+export async function completeOnboardingAction(payload: CompleteOnboardingPayload): Promise<ActionResult> {
   try {
-    const result = await completeOnboarding(payload);
+    await completeOnboarding(payload);
     revalidatePath("/protected/learner", "layout");
     revalidatePath("/protected/learner");
     revalidatePath("/onboarding");
-    return { data: { keysGranted: result.keysGranted }, success: true };
+    return { success: true };
   } catch (error) {
     return {
       error: error instanceof Error ? error.message : "Failed to complete onboarding",
