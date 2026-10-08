@@ -4,7 +4,14 @@ export type ExperienceLevel = "beginner" | "some_experience" | "comfortable";
 
 export type PlacementChoice = "take_check" | "skip_check";
 
-export type ThemeChoice = "animals" | "food" | "travel" | "nature" | "daily_life" | "technology" | "surprise_me";
+export type ThemeChoice =
+  | "everyday-animals"
+  | "food-and-drinks"
+  | "daily-life"
+  | "travel"
+  | "introductions"
+  | "at-the-restaurant"
+  | "surprise_me";
 
 export type PlacementBand = "foundation" | "intermediate" | "advanced";
 

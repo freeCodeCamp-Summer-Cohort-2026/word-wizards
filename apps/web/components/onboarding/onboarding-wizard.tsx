@@ -35,7 +35,9 @@ export function OnboardingWizard({ initialProfile }: OnboardingWizardProps) {
         ? "skip_check"
         : undefined,
   );
-  const [theme, setTheme] = useState<ThemeChoice | undefined>((initialProfile?.firstTheme as ThemeChoice) ?? "animals");
+  const [theme, setTheme] = useState<ThemeChoice | undefined>(
+    (initialProfile?.firstTheme as ThemeChoice) ?? "everyday-animals",
+  );
 
   // Determine starting step based on saved profile progress (capped at 6)
   const initialStep = Math.max(1, Math.min(initialProfile?.onboardingStep ?? 1, 6));
@@ -70,7 +72,6 @@ export function OnboardingWizard({ initialProfile }: OnboardingWizardProps) {
     });
   };
 
-  // Step 1 -> Step 2
   // Step 1 -> Step 2
   const handleBegin = async () => {
     setErrorMsg(null);

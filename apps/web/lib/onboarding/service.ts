@@ -37,14 +37,7 @@ export async function getOnboardingProfile(): Promise<ProfileOnboardingData | nu
 
     if (insertError) {
       console.error("Error creating initial profile:", insertError);
-      return {
-        displayName: defaultDisplayName,
-        email: user.email,
-        id: user.id,
-        keysBalance: 5,
-        onboardingCompleted: false,
-        onboardingStep: 1,
-      };
+      throw new Error("Failed to initialize user profile");
     }
 
     return {

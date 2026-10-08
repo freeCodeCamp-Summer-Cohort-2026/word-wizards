@@ -2,6 +2,7 @@
 
 import { ArrowRightIcon, CheckIcon, SpeakerHighIcon } from "@phosphor-icons/react";
 import { useState } from "react";
+import { THEME_OPTIONS } from "@/lib/onboarding/constants";
 import type { ThemeChoice } from "@/lib/onboarding/types";
 
 interface Step7FirstLessonProps {
@@ -12,7 +13,7 @@ interface Step7FirstLessonProps {
 }
 
 export function Step7FirstLesson({
-  theme = "animals",
+  theme = "everyday-animals",
   onStartLesson,
   onGoToDashboard,
   isSubmitting = false,
@@ -40,7 +41,8 @@ export function Step7FirstLesson({
     "Build your confidence",
   ];
 
-  const themeLabel = theme === "surprise_me" ? "Featured" : theme.charAt(0).toUpperCase() + theme.slice(1);
+  const matchedTheme = THEME_OPTIONS.find((t) => t.id === theme);
+  const themeLabel = theme === "surprise_me" ? "Featured" : (matchedTheme?.title ?? "Everyday Animals");
 
   return (
     <div className="flex flex-col">

@@ -48,11 +48,17 @@ export async function middleware(request: NextRequest) {
 
   // 2. Authenticated users route guarding
   if (user && (isProtectedPath || isOnboardingPath)) {
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("onboarding_completed")
       .eq("id", user.id)
       .maybeSingle();
+
+    if (profileError) {
+      console.error("Middleware profile query error:", profileError);
+      // On query error, allow the request to proceed to the application layer where proper error boundaries handle it
+      return supabaseResponse;
+    }
 
     const onboardingCompleted = profile?.onboarding_completed ?? false;
 

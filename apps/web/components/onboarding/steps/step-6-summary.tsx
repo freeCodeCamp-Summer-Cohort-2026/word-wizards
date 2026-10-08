@@ -1,9 +1,9 @@
 "use client";
 
 import { ArrowRightIcon, BookOpenIcon, ChartBarIcon, PawPrintIcon, SparkleIcon } from "@phosphor-icons/react";
+import Image from "next/image";
 import { EXPERIENCE_OPTIONS, GOAL_OPTIONS, SURPRISE_THEME_OPTION, THEME_OPTIONS } from "@/lib/onboarding/constants";
 import type { ExperienceLevel, OnboardingGoal, ThemeChoice } from "@/lib/onboarding/types";
-import { OwlMascot } from "../icons/owl-mascot";
 import { StepDots } from "../onboarding-header";
 
 interface Step6SummaryProps {
@@ -108,7 +108,13 @@ export function Step6Summary({
       {/* Cheerleader Owl Card */}
       <div className="mt-4 flex items-center gap-3.5 rounded-2xl border border-[#ede9ff] bg-gradient-to-r from-[#f7f4ff] to-[#fbfaff] p-3.5">
         <div className="shrink-0">
-          <OwlMascot showBooks={false} size={46} />
+          <Image
+            alt="Word Wizards mascot cheerleader"
+            className="h-12 w-12 object-contain"
+            height={48}
+            src="/assets-png/mascot/mascot-happy.png"
+            width={48}
+          />
         </div>
         <div className="text-left">
           <p className="flex items-center gap-1 text-xs font-bold text-[#6c4cf6]">

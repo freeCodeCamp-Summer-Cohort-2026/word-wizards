@@ -73,18 +73,18 @@ export const EXPERIENCE_OPTIONS: ExperienceOption[] = [
 export interface ThemeOption {
   description?: string;
   emoji: string;
-  iconName: "paw" | "hamburger" | "airplane" | "leaf" | "house" | "laptop" | "dice";
+  iconName: "paw" | "apple" | "sun" | "airplane" | "chat" | "restaurant" | "dice";
   id: ThemeChoice;
   title: string;
 }
 
 export const THEME_OPTIONS: ThemeOption[] = [
-  { emoji: "🐾", iconName: "paw", id: "animals", title: "Animals" },
-  { emoji: "🍔", iconName: "hamburger", id: "food", title: "Food" },
-  { emoji: "✈️", iconName: "airplane", id: "travel", title: "Travel" },
-  { emoji: "🌿", iconName: "leaf", id: "nature", title: "Nature" },
-  { emoji: "🏠", iconName: "house", id: "daily_life", title: "Daily Life" },
-  { emoji: "💻", iconName: "laptop", id: "technology", title: "Technology" },
+  { emoji: "🐾", iconName: "paw", id: "everyday-animals", title: "Everyday Animals" },
+  { emoji: "🍎", iconName: "apple", id: "food-and-drinks", title: "Food & Drinks" },
+  { emoji: "☀️", iconName: "sun", id: "daily-life", title: "Daily Life" },
+  { emoji: "🧳", iconName: "airplane", id: "travel", title: "Travel" },
+  { emoji: "👋", iconName: "chat", id: "introductions", title: "Introductions" },
+  { emoji: "🍽️", iconName: "restaurant", id: "at-the-restaurant", title: "At the Restaurant" },
 ];
 
 export const SURPRISE_THEME_OPTION: ThemeOption = {

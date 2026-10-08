@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowRightIcon, CheckCircleIcon } from "@phosphor-icons/react";
+import Image from "next/image";
 import { PLACEMENT_CHECK_BENEFITS } from "@/lib/onboarding/constants";
-import { TestClipboardIcon } from "../icons/test-clipboard";
 import { StepDots } from "../onboarding-header";
 
 interface Step4PlacementProps {
@@ -27,7 +27,13 @@ export function Step4Placement({ onTakeCheck, onSkipCheck, onBack }: Step4Placem
       {/* Hero Illustration & Value Props Card */}
       <div className="mt-6 flex flex-col items-center justify-between rounded-3xl border border-[#e7e3f3] bg-gradient-to-b from-[#faf9ff] to-white p-6 sm:flex-row sm:gap-6">
         <div className="flex shrink-0 items-center justify-center p-2">
-          <TestClipboardIcon size={130} />
+          <Image
+            alt="Placement check assessment preview"
+            className="h-auto w-28 object-contain drop-shadow-md sm:w-32"
+            height={130}
+            src="/assets-png/illustrations/open-book.png"
+            width={130}
+          />
         </div>
 
         <div className="mt-4 flex flex-1 flex-col gap-2.5 sm:mt-0">

@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRightIcon } from "@phosphor-icons/react";
-import { OwlMascot } from "../icons/owl-mascot";
+import Image from "next/image";
 import { StepDots } from "../onboarding-header";
 
 interface Step1WelcomeProps {
@@ -14,11 +14,18 @@ export function Step1Welcome({ onBegin }: Step1WelcomeProps) {
       {/* Mascot Graphic with Quote Bubble */}
       <div className="relative mt-2 flex flex-col items-center">
         {/* Quote Bubble */}
-        <div className="absolute -left-12 top-14 hidden -rotate-6 rounded-2xl border border-[#ede9ff] bg-white px-3.5 py-2 shadow-[0_4px_16px_rgba(108,76,246,0.08)] sm:block">
+        <div className="absolute -left-12 top-14 hidden -rotate-6 rounded-2xl border border-[#ede9ff] bg-white px-3.5 py-2 shadow-[0_4px_16px_rgba(108,76,246,0.08)] sm:block z-10">
           <p className="font-heading text-xs font-semibold italic text-[#6c4cf6]">“Every word is a new adventure!”</p>
         </div>
 
-        <OwlMascot showBooks={true} size={190} />
+        <Image
+          alt="Word Wizards owl mascot"
+          className="relative h-auto w-44 object-contain drop-shadow-[0_12px_20px_rgba(108,76,246,0.15)] sm:w-48"
+          height={190}
+          priority
+          src="/assets-png/mascot/mascot-main.png"
+          width={190}
+        />
       </div>
 
       {/* Title & Description */}

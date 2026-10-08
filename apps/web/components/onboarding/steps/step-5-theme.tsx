@@ -2,14 +2,14 @@
 
 import {
   AirplaneTiltIcon,
+  AppleLogoIcon,
   ArrowRightIcon,
+  ChatCircleDotsIcon,
   CheckIcon,
   DiceFiveIcon,
-  HamburgerIcon,
-  HouseIcon,
-  LaptopIcon,
+  ForkKnifeIcon,
   PawPrintIcon,
-  PlantIcon,
+  SunIcon,
 } from "@phosphor-icons/react";
 import { SURPRISE_THEME_OPTION, THEME_OPTIONS } from "@/lib/onboarding/constants";
 import type { ThemeChoice } from "@/lib/onboarding/types";
@@ -28,16 +28,16 @@ export function Step5Theme({ selectedTheme, onSelectTheme, onContinue, onBack }:
     switch (iconName) {
       case "paw":
         return <PawPrintIcon className="text-[#6c4cf6]" size={24} weight="duotone" />;
-      case "hamburger":
-        return <HamburgerIcon className="text-amber-600" size={24} weight="duotone" />;
+      case "apple":
+        return <AppleLogoIcon className="text-rose-600" size={24} weight="duotone" />;
+      case "sun":
+        return <SunIcon className="text-amber-500" size={24} weight="duotone" />;
       case "airplane":
         return <AirplaneTiltIcon className="text-blue-600" size={24} weight="duotone" />;
-      case "leaf":
-        return <PlantIcon className="text-emerald-600" size={24} weight="duotone" />;
-      case "house":
-        return <HouseIcon className="text-orange-600" size={24} weight="duotone" />;
-      case "laptop":
-        return <LaptopIcon className="text-indigo-600" size={24} weight="duotone" />;
+      case "chat":
+        return <ChatCircleDotsIcon className="text-emerald-600" size={24} weight="duotone" />;
+      case "restaurant":
+        return <ForkKnifeIcon className="text-orange-600" size={24} weight="duotone" />;
       case "dice":
         return <DiceFiveIcon className="text-rose-600" size={24} weight="duotone" />;
       default:
