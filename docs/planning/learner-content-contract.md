@@ -100,18 +100,29 @@ The exercise contract intentionally does not define answer payloads, evaluation 
 
 ## Learner profile
 
-The profile represents application-level learner information. Authentication remains owned by Supabase Auth.
+The canonical Supabase table for learner profile information is `public.profiles` (table name: `profiles`). Authentication remains owned by Supabase Auth (`auth.users`), linked via `profiles.id = auth.users.id`.
 
 | Field | Type | Purpose |
 | --- | --- | --- |
-| id | uuid/string | Learner identifier |
+| id | uuid/string | Learner identifier (FK to auth.users.id) |
 | display_name | string | Learner-facing name and identifier |
 | email | string | Account email |
 | avatar_url | string/null | Optional profile image |
+| keys_balance | integer | Current key balance (defaults to 5 starter keys upon account creation) |
+| onboarding_completed | boolean | Whether the user has completed initial onboarding |
+| onboarding_step | integer | Last saved onboarding step index (1-7) |
+| goal | enum/string | Selected onboarding learning goal |
+| experience_level | enum/string | Selected English experience level |
+| placement_check_status | enum/string | Status of placement check (pending, skipped, completed) |
+| placement_score | integer/null | Placement assessment score when completed |
+| first_theme | string | Initial chosen catalogue theme ID (e.g. `everyday-animals`) |
 
 Service:
 
 - `getLearnerProfile()`
+- `getOnboardingProfile()`
+- `saveOnboardingStep(payload)`
+- `completeOnboarding(payload)`
 
 ## Learner state
 
@@ -158,20 +169,22 @@ Service:
 
 Attempt history is separate from progress aggregates. The current mock progress data may still expose `attemptCount` as a UI-friendly aggregate.
 
-## Keys
+## Keys & Starter Balance Contract
+
+Every new learner is granted **5 starter keys** immediately upon registration (`profiles.keys_balance = 5`). This contract ensures learners can immediately unlock and begin their first learning modules without being blocked.
 
 The temporary learner state exposes a wallet-like key balance:
 
 | Field | Type | Purpose |
 | --- | --- | --- |
 | learner_id | uuid/string | Learner who owns the balance |
-| key_balance | integer | Current mock key balance |
+| key_balance | integer | Current key balance (initialized with 5 starter keys) |
 
 Service:
 
 - `getLearnerWallet()`
 
-This is intentionally a read-only mock projection. Key earning, spending, transaction history, and anti-farming rules are out of scope.
+This is intentionally a read-only mock projection on the client. Key earning, spending, transaction history, and anti-farming rules are enforced server-side.
 
 ## Content unlocks
 
